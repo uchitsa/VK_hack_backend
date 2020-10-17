@@ -1,7 +1,6 @@
 from typing import List
 from fastapi import FastAPI, HTTPException
 from tortoise.contrib.fastapi import register_tortoise, HTTPNotFoundError
-import crud
 import schemas
 from models import (
     User, UserPydantic, UserInPydantic, UserPydanticList,

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+    expose:
+      - 8000
+    volumes:
+      - static_volume:/home/app/static
+  db:
+    image: postgres:11
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=01092000m
+      - POSTGRES_DB=football_school_db
+    ports:
+      - 5435:5432
+  nginx:
+    image: nginx:mainline-alpine
+    ports:
+      - 80:80
+      - 444:443
+    volumes:
+      - static_volume:/home/app/static
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+volumes:
+  postgres_data:
+  static_volume:
