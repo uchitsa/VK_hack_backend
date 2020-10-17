@@ -42,6 +42,8 @@ class Source(models.Model):
     name = fields.CharField(max_length=250)
     host = fields.ForeignKeyField('models.Host', related_name='sources', on_delete=fields.CASCADE)
     url = fields.CharField(max_length=500)
+    city = fields.ForeignKeyField('models.City', related_name='sources', on_delete=fields.CASCADE,
+                                  default=None, null=True)
 
 
 class PotentialPost(models.Model):

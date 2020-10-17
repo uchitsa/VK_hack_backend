@@ -7,6 +7,7 @@ from models import (
     User, UserPydantic, UserInPydantic, UserPydanticList,
     City, CityPydantic, CityPydanticList,
     Region, RegionPydantic, RegionPydanticList,
+    Category, CategoryPydantic, CategoryPydanticList,
 )
 from vkwave.api import API
 from vkwave.client import AIOHTTPClient
@@ -28,6 +29,11 @@ def get_json(x) -> dict:
 
 def get_json_items(x) -> List:
     return get_json(x)['response']['items']
+
+
+@app.get("/categories")
+async def get_categories():
+    return await CategoryPydantic.from_queryset(Category.all())
 
 
 @app.get("/region")
