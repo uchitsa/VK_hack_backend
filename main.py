@@ -1,5 +1,6 @@
 from typing import List
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise, HTTPNotFoundError
 import schemas
 from models import (
@@ -11,15 +12,31 @@ from models import (
 from vkwave.api import API
 from vkwave.client import AIOHTTPClient
 import json
+from os import environ
 
 
 vk_api_session = API(
-    tokens='1c868585d7c67dc159152ef3ec48c69250ce9dad75fd0c8d2d05a9e42b6ac67bc028097934ecdd58c9e4a',
+    tokens=environ.get('VK_TOKEN'),
     clients=AIOHTTPClient()
 )
 
 vk_api = vk_api_session.get_context()
 app = FastAPI()
+
+origins = [
+    "http://195.2.85.245",
+    "http://195.2.85.245:80",
+    "http://localhost",
+    "http://localhost:80",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_json(x) -> dict:
