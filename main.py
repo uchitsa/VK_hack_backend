@@ -41,10 +41,9 @@ async def get_regions(region_id: int):
     return await CityPydantic.from_queryset(City.filter(region__istartswith=region.title))
 
 
-@app.get("/test/{region_id}")
-async def test(region_id: int):
-    a = get_json_items(await vk_api.groups.search(q='Новости', city_id=region_id))
-    return a
+@app.get("/city")
+async def get_cities():
+    return await CityPydantic.from_queryset(City.all())
 
 
 @app.get("/init", response_model=schemas.Status, responses={404: {"model": HTTPNotFoundError}})
