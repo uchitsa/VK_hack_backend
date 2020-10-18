@@ -82,4 +82,4 @@ class NewsClassifier:
         return model_gru
 
 
-news_classifier = NewsClassifier()
+# news_classifier = NewsClassifier()

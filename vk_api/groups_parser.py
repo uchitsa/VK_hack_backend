@@ -4,7 +4,7 @@ from typing import List
 from .settings import vk_api
 from models import Host, Source, PotentialPost, Region, City, Category
 from asyncio import sleep
-from news_classifier.news_classifier import news_classifier
+# from news_classifier.news_classifier import news_classifier
 
 
 def get_json(x) -> dict:
