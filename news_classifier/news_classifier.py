@@ -20,7 +20,9 @@ class NewsClassifier:
     nb_classes = 9
 
     def __init__(self):
-
+        f = open('news_classifier/classes.txt', 'r')
+        self.classes = f.read().title().split('\n')
+        f.close()
         self.tokenizer = Tokenizer(num_words=NewsClassifier.num_words)
         if NewsClassifier.MODEL_FILE in listdir('news_classifier/'):
             self.model = load_model('news_classifier/' + NewsClassifier.MODEL_FILE)
@@ -39,7 +41,7 @@ class NewsClassifier:
         test_sequences = self.tokenizer.texts_to_sequences([text])
         x_test = pad_sequences(test_sequences, maxlen=NewsClassifier.max_news_len)
         pred = self.model.predict(x_test)[0]
-        print(pred)
+        return self.classes[pred.argmax(pred)]
 
     @staticmethod
     def txt_to_csv():

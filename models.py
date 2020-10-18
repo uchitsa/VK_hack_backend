@@ -48,7 +48,7 @@ class Source(models.Model):
 
 class PotentialPost(models.Model):
     id = fields.BigIntField(pk=True)
-    text = fields.CharField(max_length=500, null=True, default=None)
+    text = fields.CharField(max_length=1500, null=True, default=None)
     video = fields.CharField(max_length=500, null=True, default=None)
     photo = fields.CharField(max_length=500, null=True, default=None)
     url = fields.CharField(max_length=500, null=True, default=None)
@@ -84,3 +84,6 @@ RegionPydanticList = pydantic_queryset_creator(Region)
 
 CategoryPydantic = pydantic_model_creator(Category, name="Category")
 CategoryPydanticList = pydantic_queryset_creator(Category)
+
+PotentialPostPydantic = pydantic_model_creator(PotentialPost, name="PotentialPost")
+PotentialPostPydanticList = pydantic_queryset_creator(PotentialPost)

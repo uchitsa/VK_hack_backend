@@ -8,6 +8,7 @@ from models import (
     City, CityPydantic, CityPydanticList,
     Region, RegionPydantic, RegionPydanticList,
     Category, CategoryPydantic, CategoryPydanticList,
+    PotentialPost, PotentialPostPydantic, PotentialPostPydanticList,
 )
 
 import json
@@ -51,6 +52,16 @@ async def get_regions(region_id: int):
 @app.get("/city")
 async def get_cities():
     return await CityPydantic.from_queryset(City.all())
+
+
+@app.get("/post")
+async def get_posts():
+    return await PotentialPostPydantic.from_queryset(PotentialPost.all())
+
+
+@app.get("/post/{post_id}")
+async def get_post(post_id: int):
+    return await PotentialPostPydantic.from_queryset_single(PotentialPost.get(id=post_id))
 
 
 @app.get("/test")
