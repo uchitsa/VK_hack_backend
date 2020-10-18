@@ -9,18 +9,12 @@ from models import (
     Region, RegionPydantic, RegionPydanticList,
     Category, CategoryPydantic, CategoryPydanticList,
 )
-from vkwave.api import API
-from vkwave.client import AIOHTTPClient
+
 import json
-from os import environ
+from vk_api.settings import vk_api
+from vk_api.groups_parser import parse_vk_groups, get_json_items
 
 
-vk_api_session = API(
-    tokens=environ.get('VK_TOKEN'),
-    clients=AIOHTTPClient()
-)
-
-vk_api = vk_api_session.get_context()
 app = FastAPI()
 
 origins = [
@@ -36,14 +30,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-def get_json(x) -> dict:
-    return json.loads(x.json())
-
-
-def get_json_items(x) -> List:
-    return get_json(x)['response']['items']
 
 
 @app.get("/categories")
@@ -65,6 +51,12 @@ async def get_regions(region_id: int):
 @app.get("/city")
 async def get_cities():
     return await CityPydantic.from_queryset(City.all())
+
+
+@app.get("/test")
+async def test():
+    await parse_vk_groups()
+    return schemas.Status(message='!!!')
 
 
 @app.get("/init", response_model=schemas.Status, responses={404: {"model": HTTPNotFoundError}})
